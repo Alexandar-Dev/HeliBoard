@@ -118,6 +118,16 @@ public final class AudioAndHapticFeedbackManager {
         }
     }
 
+    /** Short vibration when the finger moves onto a new key during gesture typing. */
+    public void performGestureKeyHapticFeedback() {
+        if (mSettingsValues == null || !mSettingsValues.mVibrateOn
+                || (mDoNotDisturb && !mSettingsValues.mVibrateInDndMode)) {
+            return;
+        }
+        final int duration = mSettingsValues.mKeypressVibrationDuration;
+        vibrate(duration >= 0 ? duration : 10);
+    }
+
     public void onSettingsChanged(final SettingsValues settingsValues) {
         mSettingsValues = settingsValues;
         mSoundOn = reevaluateIfSoundIsOn();

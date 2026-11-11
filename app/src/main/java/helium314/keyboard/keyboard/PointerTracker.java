@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import helium314.keyboard.event.HapticEvent;
+import helium314.keyboard.latin.AudioAndHapticFeedbackManager;
 import helium314.keyboard.keyboard.internal.BatchInputArbiter;
 import helium314.keyboard.keyboard.internal.BatchInputArbiter.BatchInputArbiterListener;
 import helium314.keyboard.keyboard.internal.BogusMoveEventDetector;
@@ -123,6 +124,7 @@ public final class PointerTracker implements PointerTrackerQueue.Element,
 
     private boolean mIsDetectingGesture = false; // per PointerTracker.
     private static boolean sInGesture = false;
+    private static Key sLastGestureKey = null; // for haptic feedback on each key during gesture
     private static TypingTimeRecorder sTypingTimeRecorder;
 
     // The position and time at which first down event occurred.
@@ -796,9 +798,14 @@ public final class PointerTracker implements PointerTrackerQueue.Element,
                 && mBatchInputArbiter.mayStartBatchInput(this)) {
             sListener.resetMetaState(); // avoid metaState getting stuck, doesn't work with gesture typing anyway
             sInGesture = true;
+            sLastGestureKey = key;
         }
         if (sInGesture) {
             if (key != null) {
+                if (key != sLastGestureKey) {
+                    sLastGestureKey = key;
+                    AudioAndHapticFeedbackManager.getInstance().performGestureKeyHapticFeedback();
+                }
                 mBatchInputArbiter.updateBatchInput(eventTime, this);
             }
             showGestureTrail();
