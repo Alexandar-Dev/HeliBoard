@@ -20,6 +20,8 @@ import helium314.keyboard.settings.Setting
 import helium314.keyboard.settings.SearchSettingsScreen
 import helium314.keyboard.settings.SettingsActivity
 import helium314.keyboard.settings.preferences.SliderPreference
+import helium314.keyboard.settings.preferences.ListPreference
+import helium314.keyboard.latin.AudioAndHapticFeedbackManager
 import helium314.keyboard.settings.preferences.SwitchPreference
 import helium314.keyboard.latin.utils.Theme
 import helium314.keyboard.settings.initPreview
@@ -44,6 +46,10 @@ fun GestureTypingScreen(
             Settings.PREF_GESTURE_FLOATING_PREVIEW_TEXT else null,
         if (gestureEnabled && gestureFloatingPreviewEnabled)
             Settings.PREF_GESTURE_FLOATING_PREVIEW_DYNAMIC else null,
+        if (gestureEnabled)
+            Settings.PREF_GESTURE_VIBRATION else null,
+        if (gestureEnabled && prefs.getString(Settings.PREF_GESTURE_VIBRATION, Defaults.PREF_GESTURE_VIBRATION) != "OFF")
+            Settings.PREF_GESTURE_VIBRATION_DURATION else null,
         if (gestureEnabled)
             Settings.PREF_GESTURE_SPACE_AWARE else null,
         if (gestureEnabled)
@@ -84,6 +90,27 @@ fun createGestureTypingSettings(context: Context) = listOf(
             ctx.prefs().edit { putBoolean(Settings.PREF_GESTURE_DYNAMIC_PREVIEW_FOLLOW_SYSTEM, followingSystem) }
             KeyboardSwitcher.getInstance().setThemeNeedsReload()
         }
+    },
+    Setting(context, Settings.PREF_GESTURE_VIBRATION, R.string.gesture_vibration) {
+        val items = listOf(
+            stringResource(R.string.gesture_vibration_every_key) to "EVERY_KEY",
+            stringResource(R.string.gesture_vibration_start_end) to "START_END",
+            stringResource(R.string.gesture_vibration_off) to "OFF",
+        )
+        ListPreference(it, items, Defaults.PREF_GESTURE_VIBRATION)
+    },
+    Setting(context, Settings.PREF_GESTURE_VIBRATION_DURATION, R.string.gesture_vibration_duration) { def ->
+        SliderPreference(
+            name = def.title,
+            key = def.key,
+            default = Defaults.PREF_GESTURE_VIBRATION_DURATION,
+            description = {
+                if (it < 0) stringResource(R.string.gesture_vibration_duration_same)
+                else stringResource(R.string.abbreviation_unit_milliseconds, it.toString())
+            },
+            range = -1f..100f,
+            onValueChanged = { it?.let { v -> if (v > 0) AudioAndHapticFeedbackManager.getInstance().vibrate(v.toLong()) } }
+        )
     },
     Setting(context, Settings.PREF_GESTURE_SPACE_AWARE, R.string.gesture_space_aware, R.string.gesture_space_aware_summary) {
         SwitchPreference(it, Defaults.PREF_GESTURE_SPACE_AWARE)

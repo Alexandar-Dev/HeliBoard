@@ -136,6 +136,8 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
     public static final String PREF_ENABLE_EMOJI_ALT_PHYSICAL_KEY = "enable_emoji_alt_physical_key";
     public static final String PREF_ENABLE_HARDWARE_KEYBOARD = "enable_hardware_keyboard";
     public static final String PREF_GESTURE_PREVIEW_TRAIL = "gesture_preview_trail";
+    public static final String PREF_GESTURE_VIBRATION = "gesture_vibration";
+    public static final String PREF_GESTURE_VIBRATION_DURATION = "gesture_vibration_duration";
     public static final String PREF_GESTURE_FLOATING_PREVIEW_TEXT = "gesture_floating_preview_text";
     public static final String PREF_GESTURE_FLOATING_PREVIEW_DYNAMIC = "gesture_floating_preview_dynamic";
     public static final String PREF_GESTURE_DYNAMIC_PREVIEW_FOLLOW_SYSTEM = "gesture_dynamic_preview_follow_system";

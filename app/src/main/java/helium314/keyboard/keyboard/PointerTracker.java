@@ -799,12 +799,13 @@ public final class PointerTracker implements PointerTrackerQueue.Element,
             sListener.resetMetaState(); // avoid metaState getting stuck, doesn't work with gesture typing anyway
             sInGesture = true;
             sLastGestureKey = key;
+            AudioAndHapticFeedbackManager.getInstance().performGestureHapticFeedback(true);
         }
         if (sInGesture) {
             if (key != null) {
                 if (key != sLastGestureKey) {
                     sLastGestureKey = key;
-                    AudioAndHapticFeedbackManager.getInstance().performGestureKeyHapticFeedback();
+                    AudioAndHapticFeedbackManager.getInstance().performGestureHapticFeedback(false);
                 }
                 mBatchInputArbiter.updateBatchInput(eventTime, this);
             }
@@ -1128,6 +1129,7 @@ public final class PointerTracker implements PointerTrackerQueue.Element,
             if (mBatchInputArbiter.mayEndBatchInput(
                     eventTime, getActivePointerTrackerCount(), this)) {
                 sInGesture = false;
+                AudioAndHapticFeedbackManager.getInstance().performGestureHapticFeedback(true);
             }
             showGestureTrail();
             return;

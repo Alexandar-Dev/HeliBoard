@@ -200,6 +200,12 @@
     <string name="gesture_space_aware_summary">Input spaces during gestures by gliding to the space key</string>
     <!-- Title of the setting to adjust the fast-typing gesture cooldown-->
     <string name="gesture_fast_typing_cooldown">Rapid typing cooldown</string>
+    <string name="gesture_vibration">Swipe vibration</string>
+    <string name="gesture_vibration_every_key">Every key</string>
+    <string name="gesture_vibration_start_end">Start and end only</string>
+    <string name="gesture_vibration_off">Off</string>
+    <string name="gesture_vibration_duration">Swipe vibration duration</string>
+    <string name="gesture_vibration_duration_same">Same as keypress</string>
     <!-- The text that represents no cooldown-->
     <string name="gesture_fast_typing_cooldown_instant">Always start instantly</string>
     <!-- Title of the setting to adjust the gesture trail fadeout duration-->

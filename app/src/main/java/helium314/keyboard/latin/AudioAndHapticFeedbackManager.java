@@ -118,14 +118,18 @@ public final class AudioAndHapticFeedbackManager {
         }
     }
 
-    /** Short vibration when the finger moves onto a new key during gesture typing. */
-    public void performGestureKeyHapticFeedback() {
-        if (mSettingsValues == null || !mSettingsValues.mVibrateOn
-                || (mDoNotDisturb && !mSettingsValues.mVibrateInDndMode)) {
+    /** Gesture typing vibration. @param startOrEnd true at gesture start/end, false when moving onto a new key. */
+    public void performGestureHapticFeedback(final boolean startOrEnd) {
+        if (mSettingsValues == null || (mDoNotDisturb && !mSettingsValues.mVibrateInDndMode)) {
             return;
         }
-        final int duration = mSettingsValues.mKeypressVibrationDuration;
-        vibrate(duration >= 0 ? duration : 10);
+        final String mode = mSettingsValues.mGestureVibration;
+        if (startOrEnd ? !"START_END".equals(mode) : !"EVERY_KEY".equals(mode)) {
+            return;
+        }
+        int duration = mSettingsValues.mGestureVibrationDuration;
+        if (duration < 0) duration = mSettingsValues.mKeypressVibrationDuration;
+        vibrate(duration > 0 ? duration : 10);
     }
 
     public void onSettingsChanged(final SettingsValues settingsValues) {

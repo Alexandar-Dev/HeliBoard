@@ -148,6 +148,8 @@ public class SettingsValues {
     public final int mFloatingWidth;
     public final int mFloatingHeight;
     public final int mKeypressVibrationDuration;
+    public final String mGestureVibration;
+    public final int mGestureVibrationDuration;
     public final float mKeypressSoundVolume;
     public final boolean mAutoCorrectionEnabledPerUserSettings;
     public final boolean mAutoCorrectCapitalizedSuggestion;
@@ -253,6 +255,8 @@ public class SettingsValues {
         // Compute other readable settings
         mKeyLongpressTimeout = prefs.getInt(Settings.PREF_KEY_LONGPRESS_TIMEOUT, Defaults.PREF_KEY_LONGPRESS_TIMEOUT);
         mKeypressVibrationDuration = prefs.getInt(Settings.PREF_VIBRATION_DURATION_SETTINGS, Defaults.PREF_VIBRATION_DURATION_SETTINGS);
+        mGestureVibration = prefs.getString(Settings.PREF_GESTURE_VIBRATION, Defaults.PREF_GESTURE_VIBRATION);
+        mGestureVibrationDuration = prefs.getInt(Settings.PREF_GESTURE_VIBRATION_DURATION, Defaults.PREF_GESTURE_VIBRATION_DURATION);
         mKeypressSoundVolume = prefs.getFloat(Settings.PREF_KEYPRESS_SOUND_VOLUME, Defaults.PREF_KEYPRESS_SOUND_VOLUME);
         mEnableEmojiAltPhysicalKey = prefs.getBoolean(Settings.PREF_ENABLE_EMOJI_ALT_PHYSICAL_KEY, Defaults.PREF_ENABLE_EMOJI_ALT_PHYSICAL_KEY);
         mEnableHardwareKeyboard = prefs.getBoolean(Settings.PREF_ENABLE_HARDWARE_KEYBOARD, Defaults.PREF_ENABLE_HARDWARE_KEYBOARD);
