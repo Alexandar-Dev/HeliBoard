@@ -24,8 +24,8 @@ jobs:
           DEBUG_KEYSTORE_B64: ${{ secrets.DEBUG_KEYSTORE_B64 }}
         if: ${{ env.DEBUG_KEYSTORE_B64 != '' }}
         run: |
-          mkdir -p ~/.android
-          echo "$DEBUG_KEYSTORE_B64" | base64 -d > ~/.android/debug.keystore
+          echo "$DEBUG_KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/debug.keystore"
+          echo "DEBUG_KEYSTORE=$RUNNER_TEMP/debug.keystore" >> "$GITHUB_ENV"
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew

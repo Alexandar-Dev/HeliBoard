@@ -7,6 +7,12 @@ plugins {
 }
 
 android {
+    // HeliBoard alex: fixed signing key on CI (DEBUG_KEYSTORE points to a keystore restored from a secret)
+    signingConfigs {
+        getByName("debug") {
+            System.getenv("DEBUG_KEYSTORE")?.let { if (file(it).exists()) storeFile = file(it) }
+        }
+    }
     compileSdk = 37
 
     defaultConfig {
